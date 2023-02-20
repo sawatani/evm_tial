@@ -5,12 +5,15 @@ on:
       target_a:
         description: 'target_a'
         type: boolean
+        default: 'true'
       target_b:
         description: 'target_b'
         type: boolean
+        default: 'true'
       target_c:
         description: 'target_c'
         type: boolean
+        default: 'true'
 
 jobs:
   set-matrix:
