@@ -1,0 +1,45 @@
+name: Manual matrix
+on:
+  workflow_dispatch:
+    inputs:
+      target_a:
+        description: 'target_a'
+        type: boolean
+      target_b:
+        description: 'target_b'
+        type: boolean
+      target_c:
+        description: 'target_c'
+        type: boolean
+
+jobs:
+  set-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Set matrix
+        id: set-matrix
+        run: |
+          matrix="["
+          if [ "${{ github.event.inputs.target_a }}" = "true" ]; then
+            matrix="${matrix}\"target_a\","
+          fi
+          if [ "${{ github.event.inputs.target_b }}" = "true" ]; then
+            matrix="${matrix}\"target_b\","
+          fi
+          if [ "${{ github.event.inputs.target_b }}" = "true" ]; then
+            matrix="${matrix}\"target_b\","
+          fi
+          matrix="${matrix:0:-1}]"
+          echo "::set-output name=matrix::$matrix"
+
+  run-tests:
+    needs: set-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target: ${{ fromJson(needs.set-matrix.outputs.matrix) }}
+    steps:
+      - name: Run tests
+        run: echo ${{ matrix.target }}
