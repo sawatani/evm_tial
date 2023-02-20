@@ -28,11 +28,11 @@ jobs:
           if [ "${{ github.event.inputs.target_b }}" = "true" ]; then
             matrix="${matrix}\"target_b\","
           fi
-          if [ "${{ github.event.inputs.target_b }}" = "true" ]; then
-            matrix="${matrix}\"target_b\","
+          if [ "${{ github.event.inputs.target_c }}" = "true" ]; then
+            matrix="${matrix}\"target_c\","
           fi
           matrix="${matrix:0:-1}]"
-          echo "::set-output name=matrix::$matrix"
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
 
   run-tests:
     needs: set-matrix
